@@ -1,8 +1,8 @@
 ﻿
-define p = Character("[player_name]", color = "#030bfc")
+define p = Character("[player_name]", color = "#4287f5")
 define MO = Character("Molly",  image = "molly_s", color="#fcba03")
 define A = Character("Agnes", image="agnes_s",color ="#0e801f")
-define M = Character("The Minister",  image="minister_s", color = "#6b1010")
+define M = Character("The Minister",  image="minister_s", color = "#f20707")
 define H = Character("Henry",image="henry_s",  color = "#94779e")
 define C = Character("Constable", image="constable_s", color = "#ff7373")
 
@@ -176,11 +176,12 @@ label first_day:
     #after choice dialogue
     hide menu
     MO "Now I will take my leave, I wish to return home well before nightfall, stay safe my dear. "
-    hide molly 
+    #with dissolve
+    #hide molly 
     with dissolve
     ### get rid of MOLLY image
     scene town_evening
-    ## AGnes arrives -- add image
+    ## AGnes arrives 
     show agnes_left at center
     A "I could not help but overhear dear Molly about the witch who was arrested, terrible news that. You must know that that is not the end of it, for that ignores how witchery infects noble communities and drives those to sin. Do you think the Nelson’s were simply ignorant to the demonic deeds of their servant?"
     A "It is to be expected though, that family has always been overly fortunate, flaunting their wealth and bountifulness in front of everyone, displaying a false image of piety and humbleness. "
@@ -195,7 +196,8 @@ label first_day:
     hide menu
     A "Good good, I knew I could count on such an upstanding young lady such as yourself."
 
-    ## Minister Appears -- add image
+    ## Minister Appears 
+    with dissolve
     show minister at left 
     M "Good day Agnes, and young [player_name]. How fare you this fine afternoon?"
 
@@ -216,20 +218,20 @@ label first_day:
             $suspicion = suspicion*0.4
             M "Interesting, very interesting. It is wrong to have sympathy for those who have sold their souls to the devil and are already lost. But young women such as yourself are often driven to fits of hysteria and not trusted to be able to protect themselves,  [player_name]"
     hide menu
-    with dissolve
+    #with dissolve
     jump player_decision
 
 label second_day:
 
-    # show ZMolly in market scene
+    # show Molly in market scene
+    with dissolve
     scene market
     show henry at center
     show molly at right
     MO "Henry dear! It is so good to see you again, I cannot thank you again for your help with my dear husband's sickness, those herbs you recommended to me were a godsend."
-   # hide henry
-    #show molly at left
+
     H " It was no problem at all ma'am, if you have any concerns about your husband or son, do stop in to the apothecary and I will see what I can do. "
-   # show henry at right
+
     p "It is good to hear your husband is doing better Molly. "
 
     # agnes appears
@@ -237,21 +239,17 @@ label second_day:
     A " Did you witness the execution last night? It feels so good that the evildoers are being pushed out of our dear town."
     p "I… had not, I went home early last night. What happened?"
     A "Oh, they arrested Mrs. Nelson along with the rest of her staff, apparently she had been using her powers to steal the beauty from a bunch of young girls in town. As I told you yesterday, I always suspected that she was not to be trusted. "
-   # hide molly
+
     
     MO " Oh dear, well I am glad that the upstanding members of the church were able to uncover her actions. "
-    #hide agnes
-    #show molly at position2
+
     A "The question is who else has been taken in by those malefactors? It cannot just be those who have been accused, for they have all been pillars of the community. They had access to so many people who knows how many more witches stand among us, deceiving us with falsities and empty words. "
-    #hide henry
-    #show agnes
+
     H "How would you tell that someone is a witch without seeing them do witchcraft? "
-    #hide agnes
-    #show henry
+
 
     A "There are signs, you see, of how the devil reaches through them. No true righteous person would be so damaged upon their body or their soul, through blemishes, fits and poor behaviour. "
-   # show agnes
-    #hide molly
+
     MO "Poor behaviour? Oh have you heard of young Malcolm? A heartbreaker that one, all the girls have been chasing after him but he is just leaving a trail of broken hearts. "
     MO "One day he will take pity on one of the poor lasses and I bet they would have such beautiful babies. Maybe our dear [player_name] might take him off the market and put all those girls out of their misery so they can act proper once more. "
 
@@ -266,14 +264,13 @@ label second_day:
             $suspicion = suspicion*1.1
 
     hide menu
-    #show molly
-    #hide agnes
+    
     A "Yes, I had heard. A polite gentleman, with nary a presence in any room of ill-repute. You are close with him are you not Henry? Have you seen any signs of the devil around him? It is quite strange how those young ladies fall over themselves without fail. "
-    #show agnes
-   # hide henry
+    
     H "Yes, that is just Malcolm, unfailingly kind and wonderful to all women. If you will excuse me I have to go right now, fair thee well Madams. "
 
     #henry is about to leave but the constable appears
+    with dissolve
     show constable at far_left
     C "Henry Beauchamp, I have a warrant for your arrest."
     H "Arrest? But…. I have not done anything?"
@@ -295,6 +292,8 @@ label second_day:
     with dissolve
     hide henry 
     hide constable
+    hide agnes
+    with dissolve
     show agnes at center
 
 
@@ -316,11 +315,12 @@ label second_day:
     hide menu
     MO "Rr..ight, I will go check on my family now."
 
-    with dissolve
+   # with dissolve
     jump player_decision
 
 label third_day:
     #constable appears in the 
+    with dissolve
     scene town_morning
     show constable at left
     C "The minister would like to speak with you "
@@ -328,6 +328,7 @@ label third_day:
     C "We don't have all day"
 
     # switch background to the ministers office
+    with dissolve
     scene office
 
     show minister at center
@@ -401,7 +402,6 @@ label player_decision:
     # The decision for the player to survive or die
     #scene town_night 
     "End of Day [day]"
-    with Pause(2)
     # add pause then get decision 
     $decision = renpy.random.randint(0, 100)
     # survive
@@ -439,7 +439,7 @@ label end_of_game:
     
 
     with dissolve 
-    scene town_morning 
+    scene town_night
     #add end choice to restart the game or exit
     menu:
 
@@ -457,7 +457,7 @@ label end_of_game:
 label player_accused:
 
     # This is the scene if player gets the bad odds and gets accused. They will then be burnt at the stake 
-    
+    with dissolve
     "You have been accused of witchcraft"
     scene courtroom
     show minister at left
