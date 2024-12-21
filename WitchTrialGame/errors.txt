@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 6: expected statement.
+    from email.mime.nonmultipart import MIMENonMultipart
+              ^
+
+Ren'Py Version: Ren'Py 8.3.3.24111502
+Sun Dec  8 22:07:58 2024
