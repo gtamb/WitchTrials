@@ -33,6 +33,10 @@ image town_morning = "/images/village_sunrise.jpg"
 image town_evening = "/images/village_sunset.jpg"
 image town_night = "/images/village_night.jpg"
 
+default suspicion = 100 # overall score for suspicion, gets updated with each choice. 
+default day = 1
+default sold_out = False
+default stand_up = False
 #https://gifer.com/en/ncH
 image black = "#000000"
 define flame_imgs = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27"]
@@ -112,10 +116,10 @@ image office = "/images/office.jpg"
 #   #  yalign 1
 
 label reset_game:
-    default suspicion = 100 # overall score for suspicion, gets updated with each choice. 
-    default day = 1
-    default sold_out = False
-    default stand_up = False
+    $suspicion = 100
+    $day = 1
+    $stand_up = False
+    $sold_out = False
 label start:
 
     # Show a background. This uses a placeholder by default, but you can
@@ -217,6 +221,7 @@ label first_day:
         "No, it is wrong to spy on my neighbours.":
             $suspicion = suspicion*0.4
             M "Interesting, very interesting. It is wrong to have sympathy for those who have sold their souls to the devil and are already lost. But young women such as yourself are often driven to fits of hysteria and not trusted to be able to protect themselves,  [player_name]"
+    
     hide menu
     #with dissolve
     jump player_decision
@@ -230,18 +235,18 @@ label second_day:
     show molly at right
     MO "Henry dear! It is so good to see you again, I cannot thank you again for your help with my dear husband's sickness, those herbs you recommended to me were a godsend."
 
-    H " It was no problem at all ma'am, if you have any concerns about your husband or son, do stop in to the apothecary and I will see what I can do. "
+    H "It was no problem at all ma'am, if you have any concerns about your husband or son, do stop in to the apothecary and I will see what I can do. "
 
     p "It is good to hear your husband is doing better Molly. "
 
     # agnes appears
     show agnes at left
-    A " Did you witness the execution last night? It feels so good that the evildoers are being pushed out of our dear town."
+    A "Did you witness the execution last night? It feels so good that the evildoers are being pushed out of our dear town."
     p "I… had not, I went home early last night. What happened?"
     A "Oh, they arrested Mrs. Nelson along with the rest of her staff, apparently she had been using her powers to steal the beauty from a bunch of young girls in town. As I told you yesterday, I always suspected that she was not to be trusted. "
 
     
-    MO " Oh dear, well I am glad that the upstanding members of the church were able to uncover her actions. "
+    MO "Oh dear, well I am glad that the upstanding members of the church were able to uncover her actions. "
 
     A "The question is who else has been taken in by those malefactors? It cannot just be those who have been accused, for they have all been pillars of the community. They had access to so many people who knows how many more witches stand among us, deceiving us with falsities and empty words. "
 
@@ -278,8 +283,10 @@ label second_day:
     C "You are being arrested for witchcraft based on accusations that you caused maladies and disfigurements among the upstanding populace and consorting with men in the ways of the devil. Come quietly and your fate will be in the courts hands, otherwise it will be in mine."
 
     menu:
-        "Henry, you must trust in the court that the court will see your innocence. You will be fine, the truth will prevail over the lies spread by this madness":
+        "Henry, you must trust in the court that the court will see your innocence. You will be fine, you have done nothing wrong,the truth will prevail over the lies spread by this madness":
             $suspicion = suspicion*0.7
+            $stand_up = True
+            
         " <<say nothing>>":
             $suspicion = suspicion*1.4
         "Henry… I will pray for you. ":
@@ -288,7 +295,7 @@ label second_day:
 
     H "I would never do these things they say, I have only tried to heal people and—-"
 
-    C " Save that for the judge, witch."
+    C "Save that for the judge, witch."
     with dissolve
     hide henry 
     hide constable
@@ -418,7 +425,7 @@ label end_of_game:
     if sold_out == True:
         p "I made it through the first wave of madness, but at what cost? The trials are not going to stop, my neighbours are going to keep on getting arrested, there is no end in sight. "
         p "What am I supposed to do? I kept my head down, but I don't know how long that will save me. How long will I be able to live with myself while innocent people are dying?"
-        p"I don't believe that they committed the evil acts the minister is saying they did. How am I supposed to move forward when nothing is being done to stop this."
+        p "I don't believe that they committed the evil acts the minister is saying they did. How am I supposed to move forward when nothing is being done to stop this."
         p "Who is going to stop this?"
 
     elif stand_up == True:
@@ -435,7 +442,7 @@ label end_of_game:
         p "It is alright, no accusation or lies will touch me now that I helped the Minister. I will be safe, and everyone else is on their own. It has always been this way."
         p "But… the accusations are not going to stop. I saw Agnes that day at the Ministers office, she was going into speak with him as well. She has always been overly involved with everyone elses personal business and would be glad to take down those she dislikes."
         p "I do not think I would be able to stand against anything someone of her stature and reputation. She and Molly were close for years, and the moment Molly faltered in her conviction, I could tell Agnes turned away from her."
-        p "	God, what am I supposed to do?"
+        p "God, what am I supposed to do?"
     
 
     with dissolve 
@@ -464,7 +471,7 @@ label player_accused:
     if day == 1:
         M "You have been accused of the crime of witchcraft, taken in by the spread of devilry. The pyre is the only way to cleanse your soul."
     elif day == 2:
-        M " You have been accused of witchcraft, after cavorting with witches and using their enchantments. It is time to cleave your misbegotten soul from this plane and bring about a just punishment."
+        M "You have been accused of witchcraft, after cavorting with witches and using their enchantments. It is time to cleave your misbegotten soul from this plane and bring about a just punishment."
     else:
         M "[player_name] you tried to lie about your associations with witchcraft however your wickedness showed through. The only way forward is on the pyre, where you will burn."
    
